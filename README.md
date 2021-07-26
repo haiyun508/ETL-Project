@@ -1,55 +1,37 @@
-# Guidelines for ETL Project
+# Project Report
 
-This document contains guidelines, requirements, and suggestions for Project 1.
+## Extract
 
-## Team Effort
+The sources we are using in this project is csv files from Kaggle (https://www.kaggle.com/open-source-sports/mens-professional-basketball?select=basketball_awards_players.csv) and data.world (https://data.world/datadavis/nba-salaries) with data about NBA players, NBA teams and NBA coaches from 1937 to 2012
 
-Due to the short timeline, teamwork will be crucial to the success of this project! Work closely with your team through all phases of the project to ensure that there are no surprises at the end of the week.
 
-Working in a group enables you to tackle more difficult problems than you'd be able to working alone. In other words, working in a group allows you to **work smart** and **dream big**. Take advantage of it!
+## Transform
 
-## Project Proposal
+After reading each csv file to python and create a dataframe, we find out each csv file has much more information than we need, so we clean the data by dropping those unnecessary and duplicated information. For easy access and reference in later analysis, we rename the keys names.
 
-Before you start writing any code, remember that you only have one week to complete this project. View this project as a typical assignment from work. Imagine a bunch of data came in and you and your team are tasked with migrating it to a production data base.
+When summarizing the coaches master, we decide to merge coaches awards dataframe with coaches dataframe to get all the information about the coaches including their award details before loading it to sql database. 
 
-Take advantage of your Instructor and TA support during office hours and class project work time. They are a valuable resource and can help you stay on track.
+Finally, we have six dataframes with cleaned data:players_df; awards_df; salary_df; teams_master_df; coaches_master_df;team_summary_df.
 
-## Finding Data
+## Load
 
-Your project must use 2 or more sources of data. We recommend the following sites to use as sources of data:
+With the information we have, we were able to creat two relational databases: basketball_db with three tables inside:players,awards and salaries and NBA_DB with three tables inside:teams_master,teams_summary and coaches_master.
 
-* [data.world](https://data.world/)
+We load the data previously cleaned up to the above database and confirm all the data is loaded successfully.
 
-* [Kaggle](https://www.kaggle.com/)
+Some queries were done across the relational database basketball_db and we were able to get a complete dataframe with all the players' information we are interested including player_id, last_name, first_name, awards_count and max salary. 
 
-You can also use APIs or data scraped from the web. However, get approval from your instructor first. Again, there is only a week to complete this!
 
-## Data Cleanup & Analysis
+# Analysis
+Get a tableframe with data about top players with more than ten awards 
 
-Once you have identified your datasets, perform ETL on the data. Make sure to plan and document the following:
+Get a tableframe with data about players with top ten max salaries
 
-* The sources of data that you will extract from.
+A regression analysis is conducted to show the relationship between players' awards_count and max salary.
+It turned out there is no significant relation between players' awards_count and max salary. The reason could be players who played basketball for many years tend to have more awards and salary years ago can not match today's and young players with less awards tend to have high salary with current salary standard.
 
-* The type of transformation needed for this data (cleaning, joining, filtering, aggregating, etc).
+Team level data was analyzed. We analyzed the length of years each team have been in NBA games. According to the data highest number of years were played by New York Knicks and Chicago Bulls, which is 45 years. 
 
-* The type of final production database to load the data into (relational or non-relational).
+When analysing this data it is evident that some of the name changes of teams have an effect on the evaluation. To improve the accuracy of this evaluation team name changes should be incorporated in to the analysis.
 
-* The final tables or collections that will be used in the production database.
-
-You will be required to submit a final technical report with the above information and steps required to reproduce your ETL process.
-
-## Project Report
-
-At the end of the week, your team will submit a Final Report that describes the following:
-
-* **E**xtract: your original data sources and how the data was formatted (CSV, JSON, pgAdmin 4, etc).
-
-* **T**ransform: what data cleaning or transformation was required.
-
-* **L**oad: the final database, tables/collections, and why this was chosen.
-
-Please upload the report to Github and submit a link to Bootcampspot.
-
-- - -
-
-© 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+Also the % of games won by each team was also analysed . 
